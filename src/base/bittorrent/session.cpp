@@ -624,12 +624,12 @@ Session::Session(QObject *parent)
 
     // Unban Timer
     m_unbanTimer = new QTimer(this);
-    m_unbanTimer->setInterval(500);
+    m_unbanTimer->setInterval(1500);
     connect(m_unbanTimer, &QTimer::timeout, this, &Session::processUnbanRequest);
 
     // Ban Timer
     m_banTimer = new QTimer(this);
-    m_banTimer->setInterval(500);
+    m_banTimer->setInterval(1500);
     connect(m_banTimer, &QTimer::timeout, this, &Session::autoBanBadClient);
     m_banTimer->start();
 
