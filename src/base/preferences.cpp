@@ -1564,6 +1564,36 @@ void Preferences::setAutoBanUnknownPeer(const bool checked)
     setValue("Preferences/Advanced/AutoBanUnknownPeer", checked);
 }
 
+QString Preferences::getAutoBanPID() const
+{
+    return value("Preferences/Advanced/AutoBanPID", "-(XL|SD|XF|QD|BN|DL)(\\d+)-").toString();
+}
+
+QString Preferences::getAutoBanUA() const
+{
+    return value("Preferences/Advanced/AutoBanUA", "(\\d+.\\d+.\\d+.\\d+|cacao_torrent)").toString();
+}
+
+QString Preferences::getAutoBanPort() const
+{
+    return value("Preferences/Advanced/AutoBanPort", "15000").toString();
+}
+
+void Preferences::setAutoBanPID(const QString &PID)
+{
+    setValue("Preferences/Advanced/AutoBanPID", PID);
+}
+
+void Preferences::setAutoBanPort(const QString &port)
+{
+    setValue("Preferences/Advanced/AutoBanPort", port);
+}
+
+void Preferences::setAutoBanUA(const QString &UA)
+{
+    setValue("Preferences/Advanced/AutoBanUA", UA);
+}
+
 QString Preferences::customizeTrackersListUrl() const
 {
     return value("Preferences/Bittorrent/CustomizeTrackersListUrl", "https://cdn.jsdelivr.net/gh/ngosang/trackerslist/trackers_best.txt").toString();

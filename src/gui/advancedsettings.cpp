@@ -73,6 +73,9 @@ enum AdvSettingsRows
     CONFIRM_RECHECK_TORRENT,
     RECHECK_COMPLETED,
     CONFIRM_AUTO_BAN,
+    BAN_PID,
+    BAN_UA,
+    BAN_PORT,
     // UI related
     LIST_REFRESH,
     RESOLVE_HOSTS,
@@ -247,6 +250,9 @@ void AdvancedSettings::saveAdvancedSettings()
     session->setStopTrackerTimeout(m_spinBoxStopTrackerTimeout.value());
     // Auto ban Unknown Peer
     session->setAutoBanUnknownPeer(m_autoBanUnknownPeer.isChecked());
+    session->setAutoBanPID(m_autoBanPID.text().trimmed());
+    session->setAutoBanPort(m_autoBanPort.text().trimmed());
+    session->setAutoBanUA(m_autoBanUA.text().trimmed());
 
     // Program notification
     MainWindow *const mainWindow = static_cast<Application*>(QCoreApplication::instance())->mainWindow();
@@ -545,6 +551,12 @@ void AdvancedSettings::loadAdvancedSettings()
     // Auto Ban Unknown Peer from China
     m_autoBanUnknownPeer.setChecked(session->isAutoBanUnknownPeerEnabled());
     addRow(CONFIRM_AUTO_BAN, tr("Auto Ban Unknown Peer from China"), &m_autoBanUnknownPeer);
+    m_autoBanPID.setText(session->autoBanPID());
+    addRow(BAN_PID, tr("Auto Ban these Peer ID"), &m_autoBanPID);
+    m_autoBanUA.setText(session->autoBanUA());
+    addRow(BAN_UA, tr("Auto Ban these User Agent"), &m_autoBanUA);
+    m_autoBanPort.setText(session->autoBanPort());
+    addRow(BAN_PORT, tr("Auto Ban these port"), &m_autoBanPort);
     addRow(STOP_TRACKER_TIMEOUT, (tr("Stop tracker timeout") + ' ' + makeLink("https://www.libtorrent.org/reference-Settings.html#stop_tracker_timeout", "(?)"))
            , &m_spinBoxStopTrackerTimeout);
 

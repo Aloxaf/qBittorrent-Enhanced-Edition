@@ -533,6 +533,9 @@ Session::Session(QObject *parent)
     , m_isTrackerEnabled(BITTORRENT_KEY("TrackerEnabled"), false)
     , m_autoBanUnknownPeer(BITTORRENT_SESSION_KEY("AutoBanUnknownPeer"), false)
     , m_isAutoUpdateTrackersEnabled(BITTORRENT_SESSION_KEY("AutoUpdateTrackersEnabled"), false)
+    , m_autoBanPID(BITTORRENT_SESSION_KEY("AutoBanPID"), "-(XL|SD|XF|QD|BN|DL)(\\d+)-")
+    , m_autoBanUA(BITTORRENT_SESSION_KEY("AutoBanUA"), "(\\d+.\\d+.\\d+.\\d+|cacao_torrent)")
+    , m_autoBanPort(BITTORRENT_SESSION_KEY("AutoBanPort"), "15000")
     , m_bannedIPs("State/BannedIPs"
                   , QStringList()
                   , [](const QStringList &value)
@@ -2208,6 +2211,9 @@ void Session::autoBanBadClient()
     const BitTorrent::SessionStatus tStatus = session->status();
     if (tStatus.peersCount > 0) {
         bool m_AutoBan = session->isAutoBanUnknownPeerEnabled();
+        QRegExp IDFilter(session->autoBanPID());
+        QRegExp UAFilter(session->autoBanUA());
+        QRegExp PortFilter(session->autoBanPort());
         for (const BitTorrent::TorrentHandle *torrent : asConst(session->torrents())) {
             if (!torrent->isPrivate()) {
                 for (const BitTorrent::PeerInfo &peer : asConst(torrent->peers())) {
@@ -2220,9 +2226,7 @@ void Session::autoBanBadClient()
                     QString pid = peer.pid().left(8);
                     QString country = peer.country();
 
-                    QRegExp IDFilter("-(XL|SD|XF|QD|BN|DL)(\\d+)-");
-                    QRegExp UAFilter("(\\d+.\\d+.\\d+.\\d+|cacao_torrent)");
-                    if (IDFilter.exactMatch(pid) || UAFilter.exactMatch(client)) {
+                    if (IDFilter.exactMatch(pid) || UAFilter.exactMatch(client) || PortFilter.exactMatch(QString::number(port))) {
                         qDebug("Auto Banning bad Peer %s...", ip.toLocal8Bit().data());
                         Logger::instance()->addMessage(tr("Auto banning bad Peer '%1'...'%2'...'%3'...'%4'").arg(ip).arg(pid).arg(ptoc).arg(country));
                         tempblockIP(ip);
@@ -4215,6 +4219,37 @@ void Session::setAutoBanUnknownPeer(bool value)
     if (value != isAutoBanUnknownPeerEnabled()) {
         m_autoBanUnknownPeer = value;
     }
+}
+
+
+QString Session::autoBanPID() const
+{
+    return m_autoBanPID;
+}
+
+QString Session::autoBanPort() const
+{
+    return m_autoBanPort;
+}
+
+QString Session::autoBanUA() const
+{
+    return m_autoBanUA;
+}
+
+void Session::setAutoBanPID(const QString &PID)
+{
+    m_autoBanPID = PID;
+}
+
+void Session::setAutoBanPort(const QString &port)
+{
+    m_autoBanPort = port;
+}
+
+void Session::setAutoBanUA(const QString &UA)
+{
+    m_autoBanUA = UA;
 }
 
 bool Session::isListening() const

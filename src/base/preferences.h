@@ -401,6 +401,12 @@ public:
     void setAutoBanUnknownPeer(const bool checked);
     QString customizeTrackersListUrl() const;
     void setCustomizeTrackersListUrl(const QString &trackersUrl);
+    void setAutoBanPID(const QString &PID);
+    void setAutoBanUA(const QString &UA);
+    void setAutoBanPort(const QString &port);
+    QString getAutoBanPID() const;
+    QString getAutoBanPort() const;
+    QString getAutoBanUA() const;
 
 public slots:
     void setStatusFilterState(bool checked);

@@ -472,6 +472,12 @@ namespace BitTorrent
         // Auto ban unknown peer
         bool isAutoBanUnknownPeerEnabled() const;
         void setAutoBanUnknownPeer(bool value);
+        QString autoBanPID() const;
+        QString autoBanPort() const;
+        QString autoBanUA() const;
+        void setAutoBanPID(const QString &PID);
+        void setAutoBanPort(const QString &port);
+        void setAutoBanUA(const QString &UA);
 
         // Trackers list
         bool isAutoUpdateTrackersEnabled() const;
@@ -750,6 +756,9 @@ namespace BitTorrent
 #endif
         CachedSettingValue<bool> m_autoBanUnknownPeer;
         CachedSettingValue<bool> m_isAutoUpdateTrackersEnabled;
+        CachedSettingValue<QString> m_autoBanPID;
+        CachedSettingValue<QString> m_autoBanPort;
+        CachedSettingValue<QString> m_autoBanUA;
 
         // Order is important. This needs to be declared after its CachedSettingsValue
         // counterpart, because it uses it for initialization in the constructor
