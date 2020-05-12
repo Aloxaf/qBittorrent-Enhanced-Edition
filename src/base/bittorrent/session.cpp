@@ -2228,7 +2228,7 @@ void Session::autoBanBadClient()
 
                     if (IDFilter.exactMatch(pid) || UAFilter.exactMatch(client) || PortFilter.exactMatch(QString::number(port))) {
                         qDebug("Auto Banning bad Peer %s...", ip.toLocal8Bit().data());
-                        Logger::instance()->addMessage(tr("Auto banning bad Peer '%1'...'%2'...'%3'...'%4'").arg(ip).arg(pid).arg(ptoc).arg(country));
+                        Logger::instance()->addMessage(tr("Auto banning bad Peer '%1:%2'...'%3'...'%4'...'%5'").arg(ip).arg(port).arg(pid).arg(ptoc).arg(country));
                         tempblockIP(ip);
                         continue;
                     }
