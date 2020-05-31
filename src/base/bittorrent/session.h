@@ -479,6 +479,10 @@ namespace BitTorrent
         void setAutoBanPort(const QString &port);
         void setAutoBanUA(const QString &UA);
 
+        // Auto ban Bittorrent Media Player Peer
+        bool isAutoBanBTPlayerPeerEnabled() const;
+        void setAutoBanBTPlayerPeer(bool value);
+
         // Trackers list
         bool isAutoUpdateTrackersEnabled() const;
         void setAutoUpdateTrackersEnabled(bool enabled);
@@ -490,7 +494,7 @@ namespace BitTorrent
         bool m_isActive = false;
         QQueue<QString> q_bannedIPs;
         QQueue<int64_t> q_unbanTime;
-        QString m_publicTrackers;
+        CachedSettingValue<QString> m_publicTrackers;
         QTimer *m_unbanTimer;
         QTimer *m_banTimer;
         QTimer *m_updateTimer;
@@ -755,6 +759,7 @@ namespace BitTorrent
         CachedSettingValue<OSMemoryPriority> m_OSMemoryPriority;
 #endif
         CachedSettingValue<bool> m_autoBanUnknownPeer;
+        CachedSettingValue<bool> m_autoBanBTPlayerPeer;
         CachedSettingValue<bool> m_isAutoUpdateTrackersEnabled;
         CachedSettingValue<QString> m_autoBanPID;
         CachedSettingValue<QString> m_autoBanPort;

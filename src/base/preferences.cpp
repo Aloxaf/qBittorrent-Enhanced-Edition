@@ -1594,6 +1594,16 @@ void Preferences::setAutoBanUA(const QString &UA)
     setValue("Preferences/Advanced/AutoBanUA", UA);
 }
 
+bool Preferences::getAutoBanBTPlayerPeer() const
+{
+    return value("Preferences/Advanced/AutoBanBTPlayerPeer", false).toBool();
+}
+
+void Preferences::setAutoBanBTPlayerPeer(const bool checked)
+{
+    setValue("Preferences/Advanced/AutoBanBTPlayerPeer", checked);
+}
+
 QString Preferences::customizeTrackersListUrl() const
 {
     return value("Preferences/Bittorrent/CustomizeTrackersListUrl", "https://cdn.jsdelivr.net/gh/ngosang/trackerslist/trackers_best.txt").toString();

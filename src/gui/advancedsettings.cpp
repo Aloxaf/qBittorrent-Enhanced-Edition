@@ -76,6 +76,7 @@ enum AdvSettingsRows
     BAN_PID,
     BAN_UA,
     BAN_PORT,
+    CONFIRM_AUTO_BAN_BT_Player,
     // UI related
     LIST_REFRESH,
     RESOLVE_HOSTS,
@@ -253,6 +254,8 @@ void AdvancedSettings::saveAdvancedSettings()
     session->setAutoBanPID(m_autoBanPID.text().trimmed());
     session->setAutoBanPort(m_autoBanPort.text().trimmed());
     session->setAutoBanUA(m_autoBanUA.text().trimmed());
+    // Auto ban Bittorrent Media Player Peer
+    session->setAutoBanBTPlayerPeer(m_autoBanBTPlayerPeer.isChecked());
 
     // Program notification
     MainWindow *const mainWindow = static_cast<Application*>(QCoreApplication::instance())->mainWindow();
@@ -557,6 +560,9 @@ void AdvancedSettings::loadAdvancedSettings()
     addRow(BAN_UA, tr("Auto Ban these User Agent"), &m_autoBanUA);
     m_autoBanPort.setText(session->autoBanPort());
     addRow(BAN_PORT, tr("Auto Ban these port"), &m_autoBanPort);
+    // Auto Ban Bittorrent Media Player Peer
+    m_autoBanBTPlayerPeer.setChecked(session->isAutoBanBTPlayerPeerEnabled());
+    addRow(CONFIRM_AUTO_BAN_BT_Player, tr("Auto Ban Bittorrent Media Player Peer"), &m_autoBanBTPlayerPeer);
     addRow(STOP_TRACKER_TIMEOUT, (tr("Stop tracker timeout") + ' ' + makeLink("https://www.libtorrent.org/reference-Settings.html#stop_tracker_timeout", "(?)"))
            , &m_spinBoxStopTrackerTimeout);
 
